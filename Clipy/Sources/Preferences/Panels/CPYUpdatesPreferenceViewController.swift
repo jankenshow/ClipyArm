@@ -29,15 +29,38 @@ class CPYUpdatesPreferenceViewController: NSViewController {
     // MARK: - Initialize
     override func loadView() {
         super.loadView()
-        updaterController?.updater.publisher(for: \.lastUpdateCheckDate)
+        versionTextField.stringValue = "v\(Bundle.main.appVersion ?? "")"
+
+        guard let updaterController = updaterController else {
+            configureUpdatesDisabled()
+            return
+        }
+
+        updaterController.updater.publisher(for: \.lastUpdateCheckDate)
             .compactMap { $0 }
             .assign(to: \.objectValue, on: lastUpdateCheckDateTextField)
             .store(in: &cancellables)
-        versionTextField.stringValue = "v\(Bundle.main.appVersion ?? "")"
     }
 
     @IBAction private func checkForUpdates(_ sender: Any) {
-        guard let appDelegate = NSApp.delegate as? AppDelegate else { return }
-        appDelegate.updaterController?.checkForUpdates(sender)
+        guard let updaterController = updaterController else { return }
+        updaterController.checkForUpdates(sender)
+    }
+
+    private func configureUpdatesDisabled() {
+        lastUpdateCheckDateTextField.stringValue = "Updates disabled for local build"
+        checkForUpdatesButton(in: view)?.isEnabled = false
+    }
+
+    private func checkForUpdatesButton(in view: NSView) -> NSButton? {
+        for subview in view.subviews {
+            if let button = subview as? NSButton, button.action == #selector(checkForUpdates(_:)) {
+                return button
+            }
+            if let button = checkForUpdatesButton(in: subview) {
+                return button
+            }
+        }
+        return nil
     }
 }

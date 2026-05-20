@@ -1,3 +1,5 @@
+require 'shellwords'
+
 default_platform :mac
 
 platform :mac do
@@ -42,6 +44,17 @@ platform :mac do
     # TODO: Use :export_method options (developer-id)
   end
 
+  desc "Build a local Apple Silicon app without Sparkle auto updates"
+  lane :build_local do
+    ENV["DEVELOPER_DIR"] ||= "/Applications/Xcode.app/Contents/Developer" if File.directory?("/Applications/Xcode.app/Contents/Developer")
+
+    derived_data_path = "build/local-arm64/DerivedData"
+    app_path = "#{derived_data_path}/Build/Products/Release/Clipy.app"
+
+    sh(%(xcodebuild -project Clipy.xcodeproj -scheme Clipy -configuration Release -destination 'platform=macOS,arch=arm64' -derivedDataPath #{derived_data_path.shellescape} -skipPackagePluginValidation ARCHS=arm64 ONLY_ACTIVE_ARCH=YES OTHER_SWIFT_FLAGS='$(inherited) -D LOCAL_ARM_BUILD' build))
+    verify_arm64_app(app_path: app_path)
+  end
+
   ####################### PRIVATE LANES ########################
 
   private_lane :scan_clipy do
@@ -53,6 +66,28 @@ platform :mac do
       clean: true,
       xcargs: "-skipPackagePluginValidation"
     )
+  end
+
+  private_lane :verify_arm64_app do |options|
+    app_path = options[:app_path]
+    UI.user_error!("App bundle not found: #{app_path}") unless File.directory?(app_path)
+
+    checked = 0
+    missing = []
+    Dir.glob(File.join(app_path, "**", "*"), File::FNM_DOTMATCH).each do |path|
+      next unless File.file?(path)
+
+      description = `file #{Shellwords.escape(path)}`
+      next unless description.include?("Mach-O")
+
+      checked += 1
+      archs = `lipo -archs #{Shellwords.escape(path)}`.strip
+      UI.message("#{path}: #{archs}")
+      missing << "#{path} (#{archs})" unless archs.split.include?("arm64")
+    end
+
+    UI.user_error!("No Mach-O binaries found under #{app_path}") if checked.zero?
+    UI.user_error!("Missing arm64 slice:\n#{missing.join("\n")}") unless missing.empty?
   end
 
   ############################ POST ############################

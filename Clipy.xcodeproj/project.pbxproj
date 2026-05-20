@@ -539,7 +539,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C5A4B2022FC9D76000B71510 /* PBXTargetDependency */,
 			);
 			name = Clipy;
 			productName = Clipy;
@@ -557,7 +556,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C5A4B2032FC9D76000B71510 /* PBXTargetDependency */,
 				FAC43DDA1B35D8B100C06102 /* PBXTargetDependency */,
 			);
 			name = ClipyTests;
@@ -609,7 +607,6 @@
 				C5D3A75D2FB86A0200C9DCB6 /* XCRemoteSwiftPackageReference "Magnet" */,
 				C5D3A7602FB86A1C00C9DCB6 /* XCRemoteSwiftPackageReference "KeyHolder" */,
 				C5D3A7632FB86A2C00C9DCB6 /* XCRemoteSwiftPackageReference "LoginServiceKit" */,
-				C5A4B2002FC9D76000B71510 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 				C5D76D9C2FBA939E0083839F /* XCRemoteSwiftPackageReference "RxSwift" */,
 				C5D76DA32FBA98A90083839F /* XCRemoteSwiftPackageReference "AEXML" */,
 				C5D76DA62FBA9C140083839F /* XCRemoteSwiftPackageReference "pincache" */,
@@ -725,14 +722,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C5A4B2022FC9D76000B71510 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = C5A4B2012FC9D76000B71510 /* plugin:SwiftLintBuildToolPlugin */;
-		};
-		C5A4B2032FC9D76000B71510 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = C5A4B2012FC9D76000B71510 /* plugin:SwiftLintBuildToolPlugin */;
-		};
 		FAC43DDA1B35D8B100C06102 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FAC43DC51B35D8B100C06102 /* Clipy */;
@@ -1103,14 +1092,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C5A4B2002FC9D76000B71510 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 0.63.2;
-			};
-		};
 		C5A6BA722FBC5A6E00C8B9EB /* XCRemoteSwiftPackageReference "Sparkle" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sparkle-project/Sparkle";
@@ -1202,11 +1183,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C5A4B2012FC9D76000B71510 /* plugin:SwiftLintBuildToolPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C5A4B2002FC9D76000B71510 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
-			productName = "plugin:SwiftLintBuildToolPlugin";
-		};
 		C5A6BA732FBC5A6E00C8B9EB /* Sparkle */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C5A6BA722FBC5A6E00C8B9EB /* XCRemoteSwiftPackageReference "Sparkle" */;
