@@ -65,6 +65,22 @@ After `build_local` succeeds, the app is created at:
 build/local-arm64/DerivedData/Build/Products/Release/Clipy.app
 ```
 
+If Clipy is already installed, remove or move the old app before installing this self-built app.
+
+If the old app was installed with Homebrew Cask:
+
+```sh
+brew uninstall --cask clipy
+```
+
+If the old app was installed manually, quit Clipy and remove or move the existing `/Applications/Clipy.app`.
+
+After removing the old app, also clean up macOS settings that may still point to the old app path:
+
+1. Open System Settings.
+2. Go to Privacy & Security > Accessibility and remove the old `Clipy.app` entry.
+3. Go to General > Login Items & Extensions > Open at Login and remove the old `Clipy.app` entry.
+
 To install it for local use:
 
 1. Quit any running Clipy app.
@@ -72,6 +88,12 @@ To install it for local use:
 
 ```sh
 ditto build/local-arm64/DerivedData/Build/Products/Release/Clipy.app /Applications/Clipy.app
+```
+
+After copying the app to `/Applications`, remove the build output app bundle. Otherwise the build output may appear in the macOS Applications window opened by a four-finger trackpad pinch-in gesture.
+
+```sh
+rm -rf build/local-arm64/DerivedData/Build/Products/Release/Clipy.app
 ```
 
 You can verify the installed app is native Apple Silicon with:
