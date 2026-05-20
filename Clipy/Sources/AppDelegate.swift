@@ -183,12 +183,16 @@ extension AppDelegate: NSApplicationDelegate {
         }
 
         // Sparkle
+        #if LOCAL_ARM_BUILD
+        self.updaterController = nil
+        #else
         self.updaterController = SPUStandardUpdaterController(
             startingUpdater: AppEnvironment.current.defaults.bool(forKey: Constants.Update.enableAutomaticCheck),
             updaterDelegate: nil,
             userDriverDelegate: nil
         )
         updaterController?.updater.updateCheckInterval = TimeInterval(AppEnvironment.current.defaults.integer(forKey: Constants.Update.checkInterval))
+        #endif
 
         // Binding Events
         bind()

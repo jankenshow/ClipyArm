@@ -15,6 +15,14 @@ import RealmSwift
 
 final class CPYUtilities {
 
+    private static var defaultEnableAutomaticUpdateCheck: Bool {
+        #if LOCAL_ARM_BUILD
+        false
+        #else
+        true
+        #endif
+    }
+
     static func initSDKs() {
         // Fabric
         AppEnvironment.current.defaults.register(defaults: ["NSApplicationCrashOnExceptions": true])
@@ -58,7 +66,7 @@ final class CPYUtilities {
         defaultValues.updateValue(NSNumber(value: true), forKey: Constants.UserDefaults.showColorPreviewInTheMenu)
 
         /* Updates */
-        defaultValues.updateValue(NSNumber(value: true), forKey: Constants.Update.enableAutomaticCheck)
+        defaultValues.updateValue(NSNumber(value: defaultEnableAutomaticUpdateCheck), forKey: Constants.Update.enableAutomaticCheck)
         defaultValues.updateValue(NSNumber(value: 86400), forKey: Constants.Update.checkInterval)
 
         /* Beta */
